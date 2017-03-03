@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "t-motion-detector": "latest"
+  },
+  "devDependencies": {
+    "chai": "*",
+    "mocha": "*"
+  },
+  "description": "A library for detecting motion with a 433Mhz receiver, extending the t-motion-detector.",
+  "name": "t-motion-detector-433",
+  "main": "main",
+  "readmeFilename": "README.md",
+  "version": "0.1.0"
+}
