@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "rpi-433": "^2.1.0",
     "t-motion-detector": "latest"
   },
   "devDependencies": {
