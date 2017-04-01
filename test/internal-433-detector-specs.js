@@ -109,6 +109,12 @@ describe("When I Create an environment with a 433 Detector, and trigger a change
         console.log("A new notification has arrived!", message, text);
         done();
     })
-    //e.addChange(10);
+    //Enable this for hosts where the 433 Receiver is not installed
+    e.addChange(10);
+  });
+
+  it('should be possible to access the 433 Detector from the main module', function(done) {
+    var d = new main.Entities.R433Detector("My 433 Detector",2);
+    done();
   });
 });

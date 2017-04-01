@@ -1,6 +1,7 @@
 # t-motion-detector-433
 An extension of t-motion-detector for 433Mhz Receiver, based on api-433 and wiringPi  
 
+* v 0.1.4: Exposed Entities from main.js, needed when including the 433 module;
 * v 0.1.3: Correcting some bugs refactored Notifier as Detector, that's actually what it is
 * v 0.1.2: Implementing initial code / improving tests (WIP)
 * v 0.1.1: Created first mocha tests (WIP)
