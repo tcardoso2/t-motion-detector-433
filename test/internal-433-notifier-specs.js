@@ -79,12 +79,10 @@ describe("When I try to connect to a 433 Notifier ", function() {
     n.reconnect();
   });
   
-  it('the "onconnect" event should return a TypeError if the Receiver Pin is not found around.', function(done) {
+  it('the "onconnect" event should return error = false if there are no errors when connecting.', function(done) {
     var n = new ent.R433Notifier("My 433 Notifier", 2);
     n.on("onconnect", function(error){
-      error.should.not.equal(false);
-      (error instanceof TypeError).should.equal(true);
-      error.message.should.equal("Cannot read property 'peripheral' of undefined");
+      error.should.equal(false);
       done();
     })
     n.reconnect();
@@ -96,7 +94,20 @@ describe("When I Create an environment with a 433 Notifier, and trigger a change
     this.timeout(10000);
     var r433_config = new main.Config().file.default.r433;
     var n = new ent.R433Notifier("My 433 Notifier", r433_config.pinReceiver);
-    var environent; //TODO Continue here!
-    chai.assert.fail("Continue here!");
+    n.on('pushedNotification', function(message, text){
+        console.log("A new notification has arrived!", message, text);
+        done();
+    })
+
+    var e = new t.Entities.Environment();
+    var m = new t.Entities.MotionDetector();
+
+    var result = false;
+    t.Start({
+      environment: e,
+      initialNotifier: n,
+      initialMotionDetector: m
+    });
+    //e.AddChange(10);
   });
 });
