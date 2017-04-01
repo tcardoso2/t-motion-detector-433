@@ -6,7 +6,7 @@
   "devDependencies": {
     "chai": "*",
     "mocha": "*",
-    "chai-as-promised": "^6.0.0",
+    "chai-as-promised": "^6.0.0"
   },
   "description": "A library for detecting motion with a 433Mhz receiver, extending the t-motion-detector.",
   "name": "t-motion-detector-433",
