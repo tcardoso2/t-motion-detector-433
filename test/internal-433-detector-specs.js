@@ -91,7 +91,7 @@ describe("When I try to connect to a 433 Detector ", function() {
 });
 describe("When I Create an environment with a 433 Detector, and trigger a change ", function() {
   it('the 433 should detect that change', function(done) {
-    this.timeout(30000);
+    this.timeout(60000);
     var r433_config = new main.Config().file.default.r433;
     var d = new ent.R433Detector("My 433 Detector", r433_config.pinReceiver);
 
@@ -109,6 +109,6 @@ describe("When I Create an environment with a 433 Detector, and trigger a change
         console.log("A new notification has arrived!", message, text);
         done();
     })
-    e.addChange(10);
+    //e.addChange(10);
   });
 });
