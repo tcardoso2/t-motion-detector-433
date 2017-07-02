@@ -9,20 +9,19 @@
  * var md = require('t-motion-detector');
  *****************************************************/
 
-var chai = require('chai');
-var chaiAsPromised = require("chai-as-promised");
-var should = chai.should();
-var fs = require('fs');
-var t = require('t-motion-detector');
-var ent = require('../Entities');
-var main = require('../main.js');
-var events = require('events');
+let chai = require('chai');
+let chaiAsPromised = require("chai-as-promised");
+let should = chai.should();
+let fs = require('fs');
+let t = require('t-motion-detector');
+let ent = require('../Entities');
+let main = require('../main.js');
+let events = require('events');
 
 //Chai will use promises for async events
 chai.use(chaiAsPromised);
 
 before(function(done) {
-  var n = undefined;
   done();
 });
 
@@ -35,7 +34,7 @@ describe("When a new 433 Detector is created, ", function() {
   it('should throw an Exception if no receiver Raspberry pi pin is provided', function() {
     //Assumes there is some local file with the key
     try{
-      var d = new ent.R433Detector("My 433 Detector");
+      let d = new ent.R433Detector("My 433 Detector");
     } catch(e){
       e.message.should.equal("'pinIn' is a required argument, which should contain the input receiver  GPIO pin");
       return;
@@ -45,33 +44,35 @@ describe("When a new 433 Detector is created, ", function() {
 
   it('"433Notifier" must extend BaseDetector', function() {
     //Assumes there is some local file with the key
-    var d = new ent.R433Detector("My 433 Detector", 1);
+    let d = new ent.R433Detector("My 433 Detector", 1);
     (d instanceof t.Entities.MotionDetector).should.equal(true);
   });
 
   it('should detect the 433 config pin property', function() {
     //Assumes there is some local file with the key
-    var pinIn = new main.Config().pinReceiver();
-    var d = new ent.R433Detector("My BB8 Detector", pinIn);
+    let pinIn = new main.Config().pinReceiver();
+    let d = new ent.R433Detector("My BB8 Detector", pinIn);
     d.pinReceiver.should.equal(pinIn);
   });
 
   it('should check if a local file exists', function () {
-    var local_config = new main.Config();
+    let local_config = new main.Config();
     local_config.file.default.r433.should.not.equal(undefined);
   });
 
   it('should detect the 433 config properties from the local config file (default profile)', function() {
     //Assumes there is some local file with the key
-    var pinIn = new main.Config().pinReceiver();
-    var local_config = new main.Config();
+    let pinIn = new main.Config().pinReceiver();
+    let local_config = new main.Config();
     local_config.file.default.r433.pinReceiver.should.not.equal(undefined);
   });
 });
 
 describe("When I try to connect to a 433 Detector ", function() {
+
   it('should trigger a "onconnect" event', function(done) {
-    var d = new ent.R433Detector("My 433 Detector", 2);
+    t.Reset(); 
+    let d = new ent.R433Detector("My 433 Detector", 2);
     d.on("onconnect", function(error){
       chai.assert.isOk(true);
       done();
@@ -80,7 +81,8 @@ describe("When I try to connect to a 433 Detector ", function() {
   });
   
   it('the "onconnect" event should return error = false if there are no errors when connecting.', function(done) {
-    var d = new ent.R433Detector("My 433 Detector", 2);
+    t.Reset(); 
+    let d = new ent.R433Detector("My 433 Detector", 2);
     d.on("onconnect", function(error){
       error.should.equal(false);
       done();
@@ -91,14 +93,15 @@ describe("When I try to connect to a 433 Detector ", function() {
 });
 describe("When I Create an environment with a 433 Detector, and trigger a change ", function() {
   it('the 433 should detect that change', function(done) {
-    this.timeout(60000);
-    var r433_config = new main.Config().file.default.r433;
-    var d = new ent.R433Detector("My 433 Detector", r433_config.pinReceiver);
+    this.timeout(30000);
+    t.Reset(); 
+    let r433_config = new main.Config().file.default.r433;
+    let d = new ent.R433Detector("My 433 Detector", r433_config.pinReceiver);
 
-    var e = new t.Entities.Environment();
-    var n = new t.Entities.BaseNotifier();
+    let e = new t.Entities.Environment();
+    let n = new t.Entities.BaseNotifier();
 
-    var result = false;
+    let result = false;
     t.Start({
       environment: e,
       initialNotifier: n,
@@ -106,8 +109,10 @@ describe("When I Create an environment with a 433 Detector, and trigger a change
     });
 
     n.on('pushedNotification', function(message, text){
-        console.log("A new notification has arrived!", message, text);
-        done();
+      if (result) return;  
+      console.log("A new notification has arrived!", message, text);
+      result = true; 
+      done();
     })
     //Enable this for hosts where the 433 Receiver is not installed
     e.addChange(10);
@@ -116,5 +121,43 @@ describe("When I Create an environment with a 433 Detector, and trigger a change
   it('should be possible to access the 433 Detector from the main module', function(done) {
     var d = new main.Entities.R433Detector("My 433 Detector",2);
     done();
+  });
+
+  it('should propagate that change to Notifiers, namely Slack Notifier', function(done) {
+    this.timeout(5000);
+    t.Reset();
+    let r433_config = new main.Config().file.default.r433;
+    let d = new ent.R433Detector("My 433 Detector", r433_config.pinReceiver);
+
+    let e = new t.Entities.Environment();
+    let key = new main.Config().slackHook(); 
+    let n = new t.Extensions.SlackNotifier("My Slack Notifier", key); 
+    
+    n.on('pushedNotification', function(from, text, data){
+      console.log("A new notification has arrived from 433Mhz detector!", from, text);
+      if (result || (text == "Started")) {
+        console.log("Nothing to do.");
+        return;
+      }
+      from.should.equal("My Slack Notifier"); 
+      text.should.equal("Notification received from: My 433 Detector");
+      //Expecting the signal pulse to be greated than 300, for no special reason, just to check
+      data.notifier.detectors[0].currentIntensity.pulseLength.should.be.gt(300);
+      result = true;
+      console.log("done"); 
+      done();
+    });
+    let result = false;
+    t.Start({
+      environment: e,
+      initialNotifier: n,
+      initialMotionDetector: d
+    });
+    //Todo: This should be instead simulated via sending a real 433Mhz signal via a transciever;
+    d.on('onconnect', function(signal){
+      console.log("433 MHz receiver is connected");
+      signal.should.equal(false);
+      e.addChange(1); 
+    }); 
   });
 });
