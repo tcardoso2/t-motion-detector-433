@@ -90,6 +90,22 @@ describe("When I try to connect to a 433 Detector ", function() {
     d.reconnect();
     chai.assert.fail();
   });
+
+  it('should detect it if it is triggered from local config and the t-motion reference from the extension', function(done){
+    main.md.Reset();
+    let alternativeConfig = new main.md.Config("/test/config_test1.js");
+
+    main.md.StartWithConfig(alternativeConfig);
+
+    let d = main.md.GetMotionDetectors();
+
+    d.length.should.equal(1);
+    d[0].name.should.equal("R433 MD");
+    d[0].pinReceiver.should.equal(17);
+    (d[0] instanceof ent.R433Detector).should.equal(true);
+
+    done();
+  });
 });
 describe("When I Create an environment with a 433 Detector, and trigger a change ", function() {
   it('the 433 should detect that change', function(done) {

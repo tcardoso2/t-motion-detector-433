@@ -1,5 +1,5 @@
-var t = require('t-motion-detector');
-var ent = require("./Entities.js");
+let t = require('t-motion-detector');
+let ent = require("./Entities.js");
 
 class Config extends t.Config {
 
@@ -25,3 +25,6 @@ class Config extends t.Config {
 
 exports.Config = Config;
 exports.Entities = ent;
+//To refer to t-motion-detector this reference should be used!
+
+exports.md = t;

@@ -1,5 +1,6 @@
 //A specialized BB8 Notifier class which reacts by doing stuff the BB8 does so well, light, roll, etc..
-let t = require('t-motion-detector');
+let main = require('./main.js');
+let t = main.md;
 let MotionDetector = t.Entities.MotionDetector;
 
 //A BB8 Detector which detects 433Mhz radio signals
@@ -44,5 +45,13 @@ class R433Detector extends MotionDetector{
     this.reconnect();
   }
 }
+
+//Making sure t-motion recognizes the new Motion Detectors
+//Extending Factory methods
+
+//Extending Entities Factory
+const classes = { R433Detector };
+
+new t.Entities.EntitiesFactory().extend(classes);
 
 exports.R433Detector = R433Detector;
