@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "rpi-433": "^2.1.0",
-    "t-motion-detector": "^0.4.2"
+    "t-motion-detector": "^0.4.8"
   },
   "devDependencies": {
     "chai": "*",
@@ -13,5 +13,5 @@
   "name": "t-motion-detector-433",
   "main": "main",
   "readmeFilename": "README.md",
-  "version": "0.1.7"
+  "version": "0.1.8"
 }
