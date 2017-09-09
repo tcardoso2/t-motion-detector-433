@@ -1,6 +1,8 @@
 # t-motion-detector-433
 An extension of t-motion-detector for 433Mhz Receiver, based on rpi-433, wiringPi and t-motion-detector packages  
-* v 0.1.8: Small update to refer to t-motion-detector v0.4.8, latest version
+
+* v 0.1.9: Fixed error in reference to main t-motion-detector package   
+* v 0.1.8: Small update to refer to t-motion-detector v0.4.8, latest version  
 * v 0.1.7: Fixed dependency making sure t-motion-detector recognizes t-motion-detector-433
 * v 0.1.6: Minor updates.
 * v 0.1.5: Correcting bug which for latest version of t-motion-detector was not propagating 433Mhz motion detector signals to the Notifiers, namely SlackNotifier, other minor fixes

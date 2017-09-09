@@ -1,6 +1,5 @@
 //A specialized BB8 Notifier class which reacts by doing stuff the BB8 does so well, light, roll, etc..
-let main = require('./main.js');
-let t = main.md;
+let t = require('t-motion-detector');
 let MotionDetector = t.Entities.MotionDetector;
 
 //A BB8 Detector which detects 433Mhz radio signals
