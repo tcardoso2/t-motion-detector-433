@@ -1,17 +1,20 @@
 {
   "dependencies": {
     "rpi-433": "^2.1.0",
-    "t-motion-detector": "^0.4.10"
+    "t-motion-detector": "^0.5.0"
   },
   "devDependencies": {
     "chai": "*",
     "mocha": "*",
     "chai-as-promised": "^6.0.0"
   },
+  "scripts": {
+    "test": "mocha"
+  },
   "license": "MIT license",
   "description": "A library for detecting motion with a 433Mhz receiver, extending the t-motion-detector.",
   "name": "t-motion-detector-433",
   "main": "main",
   "readmeFilename": "README.md",
-  "version": "0.1.10"
+  "version": "0.1.11"
 }
