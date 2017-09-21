@@ -1,5 +1,10 @@
+[![NPM info](https://nodei.co/npm/t-motion-detector-433.png?downloads=true)](https://nodei.co/npm/t-motion-detector-433.png?downloads=true)
+
+[![Travis build status](https://travis-ci.org/tcardoso2/t-motion-detector-433.png?branch=master)](https://travis-ci.org/tcardoso2/t-motion-detector-433)
+
 # t-motion-detector-433
 An extension of t-motion-detector for 433Mhz Receiver, based on rpi-433, wiringPi and t-motion-detector packages  
+* v 0.1.12:Updating compatibility reference to t-motion-detector@0.5.1  
 * v 0.1.11:Updating compatibility reference to t-motion-detector@0.5.0  
 * v 0.1.10:Updating compatibility reference to t-motion-detector@0.4.10  
 * v 0.1.9: Fixed error in reference to main t-motion-detector package   
