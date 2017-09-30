@@ -4,7 +4,7 @@
 
 # t-motion-detector-433
 An extension of t-motion-detector for 433Mhz Receiver, based on rpi-433, wiringPi and t-motion-detector packages  
-* v 0.1.13:Updating compatibility reference to t-motion-detector@0.5.3, updated license.  
+* v 0.1.13:Updating compatibility reference to t-motion-detector@0.5.3, updated license. Overriden R433Detector.send to only send signals which come from self, ignores Environment signals.  
 * v 0.1.12:Updating compatibility reference to t-motion-detector@0.5.1, separated local tests for the travis build, setup of badges in README.  
 * v 0.1.11:Updating compatibility reference to t-motion-detector@0.5.0  
 * v 0.1.10:Updating compatibility reference to t-motion-detector@0.4.10  

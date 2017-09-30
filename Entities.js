@@ -28,7 +28,7 @@ class R433Detector extends MotionDetector{
         console.log('incoming signal!');
         console.log('Code received: '+data.code+' pulse length : '+data.pulseLength);
 
-        _this.send(data);
+        _this.send(data, _this);
       });
 
       console.log("Pin receiver is ", this.pinReceiver);
@@ -37,6 +37,13 @@ class R433Detector extends MotionDetector{
       return;
     }
     this.emit('onconnect', false);    
+  }
+
+  send(data, from){
+    //Only sends if the signal was detected from self and not Environment
+    if (from == this){
+      super.send(data);//Ignores signals sent from Environment
+    }
   }
 
   startMonitoring(){
